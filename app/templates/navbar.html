@@ -3,14 +3,14 @@
 	<div class="collapse navbar-collapse" id="navbarColor01">
 	<!-- <ul class="navbar-nav mr-auto"> -->
 		<ul class="nav navbar-nav navbar-right">
-		
-			<li class="nav-item active" style="color:rgb(255, 255, 255);padding:15px;"><a href="#">Profile</a></li>
-			<li class="nav-item active" style="color:rgb(255, 255, 255);padding:15px;"><a href="#">Sign out</a></li>
-			<li class="nav-item active" style="color:rgb(255, 255, 255);padding:15px;"><a href="#">All Blogs</a></li>
-			<li class="nav-item active" style="color:rgb(255, 255, 255);padding:15px;">user</li>
-		
-			<li class="nav-item active" style="color:rgb(255, 255, 255);padding:15px;"><a href="#">Sign in</a></li>
-		
+		{% if current_user.is_authenticated %}
+			<li class="nav-item active" style="color:rgb(255, 255, 255);padding:15px;"><a href="{{url_for('main.profile',username=current_user.username)}}">Profile</a></li>
+			<li class="nav-item active" style="color:rgb(255, 255, 255);padding:15px;"><a href="{{url_for('auth.logout')}}">Sign out</a></li>
+			<li class="nav-item active" style="color:rgb(255, 255, 255);padding:15px;"><a href="{{url_for('main.all_blogs')}}">All blogs</a></li>
+			<li class="nav-item active" style="color:rgb(255, 255, 255);padding:15px;">hi user</li>
+		{% else %}
+			<li class="nav-item active" style="color:rgb(255, 255, 255);padding:15px;"><a href="{{url_for('auth.login')}}">Sign in</a></li>
+		{% endif %}
 		</ul>
 	</div>
 </nav>
