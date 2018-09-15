@@ -1,7 +1,8 @@
-from flask import render_template
+from flask import render_template,request,redirect,url_for,abort,flash
 from ..models import Role, User
 from . import main
-from .. import db
+from .forms import UpdateProfile
+from .. import db,photos
 from flask_login import login_required, current_user
 
 
