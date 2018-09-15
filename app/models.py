@@ -1,22 +1,28 @@
 from . import db
 
 class User(db.Model):
+    '''
+    user class
+    '''
     __tablename__ = 'users'
 
-    id = db.Column(db.Integer,primary_key = True)
+    id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(255))
-    role_id = db.Column(db.Integer,db.ForeignKey('roles.id'))
+    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
 
 
     def __repr__(self):
         return f'User {self.username}'
 
 class Role(db.Model):
+    '''
+    role class
+    '''
     __tablename__ = 'roles'
 
-    id = db.Column(db.Integer,primary_key = True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
-    users = db.relationship('User',backref = 'role',lazy="dynamic")
+    users = db.relationship('User', backref='role', lazy="dynamic")
 
     def __repr__(self):
         return f'User {self.name}'
