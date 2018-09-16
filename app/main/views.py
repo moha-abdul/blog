@@ -52,7 +52,6 @@ def new_blog():
         db.session.commit()
 
         # blog.save_blog(blog)
-        print('kasambuli')
         flash('Blog created!')
         return redirect(url_for('main.single_blog',id=blog.id))
 

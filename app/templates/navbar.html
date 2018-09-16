@@ -9,7 +9,7 @@
 			<li class="nav-item active" style="color:rgb(255, 255, 255);padding:15px;"><a href="{{url_for('auth.logout')}}">Sign out</a></li>
 			<li class="nav-item active" style="color:rgb(255, 255, 255);padding:15px;">{{current_user.username}}</li>
 
-            <li class="nav-item active" style="color:rgb(255, 255, 255);padding:15px;"><a href="{{url_for('main.blogs')}}">Blogs</a></li>
+            <li class="nav-item active" style="color:rgb(255, 255, 255);padding:15px;"><a href="{{url_for('main.blog_list')}}">Blogs</a></li>
             <li class="nav-item active" style="color:rgb(255, 255, 255);padding:15px;"><a href="{{url_for('main.new_blog')}}">New blog</a></li>
 		{% else %}
 			<li class="nav-item active" style="color:rgb(255, 255, 255);padding:15px;"><a href="{{url_for('main.index')}}">Home</a></li>
