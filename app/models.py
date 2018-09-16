@@ -74,7 +74,35 @@ class Blog(db.Model):
     body = db.Column(db.String)
     posted = db.Column(db.DateTime,default=datetime.utcnow)
     user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
+    comments = db.relationship('Comment', backref='pitch', lazy="dynamic")
 
 def save_blog(self):
     db.session.add(self)
     db.session.commit()
+
+@classmethod
+def get_blogs(id):
+    blogs = Blog.query.filter_by(id = id).all()
+    return blogs
+
+class Comment(db.Model):
+
+    __tablename__ = 'comments'
+
+    id = db.Column(db.Integer, primary_key=True)
+    post_comment = db.Column(db.String(255), index=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    blogs = db.Column(db.Integer, db.ForeignKey('blogs.id'))
+    time = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def save_comment(self):
+        '''
+        Save comments
+        '''
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def get_comments(cls, id):
+        comments = Comment.query.filter_by(id=id).all()
+        return comments

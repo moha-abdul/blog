@@ -1,7 +1,7 @@
 from flask import render_template,request,redirect,url_for,abort,flash
 from ..models import Role, User, Blog
 from . import main
-from .forms import UpdateProfile, BlogForm
+from .forms import UpdateProfile, BlogForm, CommentForm
 from .. import db,photos
 from flask_login import login_required, current_user
 
@@ -45,15 +45,13 @@ def new_blog():
 
         title=form.title.data
         body=form.body.data
-        blog = Blog(title=title,
-                    body = body,
-                    user=current_user)
+        blog = Blog(title=  title,body = body,user = current_user)
         db.session.add(blog)
         db.session.commit()
 
         # blog.save_blog(blog)
         flash('Blog created!')
-        return redirect(url_for('main.single_blog',id=blog.id))
+        return redirect(url_for('main.single_blog',id = blog.id))
 
     return render_template('newblog.html', title='New Post', blog_form=form)
 
@@ -114,6 +112,43 @@ def update_pic(username):
         user.profile_pic_path = path
         db.session.commit()
     return redirect(url_for('main.profile',username=username))
+
+@main.route('/blog/<int:blog_id>/',methods=["GET","POST"])
+def blog(blog_id):
+    blog = Blog.query.get(blog_id)
+    form = CommentForm()
+    if form.validate_on_submit():
+        comment = form.comment.data
+        blog_comment = Comment(post_comment = comment, blogs=blog_id, user = current_user)
+        # new_post_comment.save_post_comments()
+
+        db.session.add(blog_comment)
+        db.session.commit()
+    comments = Comment.query.all()
+    return render_template('blog_comment.html', title = blog.title, blog = blog, blog_form = form, comments = comments)
+
+main.route('/blog/comment/new/<int:id>', methods = ['GET','POST'])
+@login_required
+def new_comment(id):
+    '''
+    this view will render form to create a comment
+    '''
+    form = CommentForm()
+    blog = Blog.query.filter_by(id = id).first()
+
+    if form.validate_on_submit():
+        comment = form.comment.data
+
+        # comment instance
+        new_comment = Comment(blog_id = blog.id, post_comment = comment, title = title, user = current_user)
+
+        # save comment
+        new_comment.save_comment()
+
+        return redirect(url_for('.blogs', id = blog.id ))
+
+    title = f'{blog.title} comment'
+    return render_template('new_comment.html', title = title, comment_form = form, blog = blog)
 
 
 

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% block content %}
+
+<div class="jumbotron" style="text-align:center; background-color: white;">
+<h1>blooooog</h1>
+<article class="media content-section">
+  <div class="media-body">
+    <div class="article-metadata">
+      <a class="mr-2" href="#">{{ blog.user_id.username }}</a>
+      <small class="text-muted">{{ blog.time }}</small>
+    </div>
+    <h2 class="article-title">{{ blog.title }}</h2>
+    <p class="article-content">{{ blog.body }}</p>
+  </div>
+
+
+</article>
+
+
+{{wtf.quick_form(blog_form)}}
+
+  {% for comment in comments[::-1] %}
+
+
+  <article class="">
+  <div class="media-body">
+    <div class="article-metadata">
+      <a class="mr-2" href="#">{{ comment.user.username }}</a>
+      <small class="text-muted">{{ comment.blogs }}</small>
+    </div>
+    <p class="article-content">{{ comment.post_comment }}</p>
+  </div>
+
+</article>
+{% endfor %}
+
+</div>
+{% endblock content %}

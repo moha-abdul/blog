@@ -11,3 +11,7 @@ class BlogForm(FlaskForm):
     title = TextAreaField('enter title.',validators = [Required()])
     body = TextAreaField('Blog body', validators=[Required()])
     submit = SubmitField('Submit')
+
+class CommentForm(FlaskForm):
+    comment = TextAreaField('Post Comment')
+    submit = SubmitField('Submit')
