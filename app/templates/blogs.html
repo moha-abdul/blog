@@ -9,7 +9,10 @@
     </div>
     <div class="col-md-8">
       <li>
-        {{macro.displayBlogs(blogs)}}
+      {% for blog in blogs %}
+        <h3>{{blogs.title}}</h3>
+        <p>{{blogs.body}}</p>
+      {% endfor %}
       </li>
     </div>
     <div class="col-md-2">

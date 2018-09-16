@@ -1,6 +1,7 @@
 {% extends 'base.html'%}
 {% import 'bootstrap/wtf.html' as wtf%}
 {% import 'macros.html' as macro %}
+{% block content %}
 <div class="container">
     <div class="jumbotron">
         <p>We create a course table with two columns for name and whether it is a full time or not.
@@ -8,4 +9,14 @@
             defines that all data stored in the column is will be a String.
             Boolean data type states all the data stored will be a boolean either True or False.</p>
     </div>
+    
+                <button type="button" class="btn btn-warning btn-lg text-white"><a href="auth/login">Sign In</a></button>
+                 <br>
+                <br>
+                <button type="button" class="btn btn-warning btn-lg"><a href="/blog/new">create new blog</a></button>
+                 <br>
+                <br>
+                <button type="button" class="btn btn-warning btn-lg"><a href="{{url_for('main.blog_list')}}">View Blogs</a></button>
+                <br>
 </div>
+{% endblock %}

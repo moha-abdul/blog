@@ -1,5 +1,5 @@
 from flask import render_template,request,redirect,url_for,abort,flash
-from ..models import Role, User
+from ..models import Role, User, Blog
 from . import main
 from .forms import UpdateProfile, BlogForm
 from .. import db,photos
@@ -20,19 +20,57 @@ def index():
 def blogs():
     return render_template('blogs.html')
 
-@main.route('/new_blog')
+# @main.route('/new_blog', methods = ['GET','POST'])
+# @login_required
+# def new_blog():
+#     form = BlogForm()
+#     if form.validate_on_submit():
+#         blogs = Blog (title=form.title.data,body=form.body.data,user_id=current_user.id)
+#         db.session.add (blogs)
+#         db.session.commit ()
+
+#         flash ( 'Your blog has been created' )
+#         return redirect(url_for('.new_blog'))
+#     blogs = Blog.query.all ()
+
+#     return render_template('new_blog.html', blog_form = form)
+
+
+@main.route('/blog/new', methods=['GET','POST'])
 @login_required
 def new_blog():
     form = BlogForm()
+
     if form.validate_on_submit():
-        title = form.title.data
-        blog = form.blog.data
 
-        #save blog method
-        new_blog.save_blog()
-        return redirect(url_for('.new_blog'))
+        title=form.title.data
+        body=form.body.data
+        blog = Blog(title=title,
+                    body = body,
+                    user=current_user)
+        db.session.add(blog)
+        db.session.commit()
 
-    return render_template('blogs.html', blog_form = form)
+        # blog.save_blog(blog)
+        print('kasambuli')
+        flash('Blog created!')
+        return redirect(url_for('main.single_blog',id=blog.id))
+
+    return render_template('newblog.html', title='New Post', blog_form=form)
+
+@main.route('/blog/new/<int:id>')
+def single_blog(id):
+    blog = Blog.query.get(id)
+    return render_template('singleblog.html', blog = blog)
+
+@main.route('/allblogs')
+@login_required
+def blog_list():
+    # Function that renders the blogs and contents
+
+    blogs = Blog.query.all()
+
+    return render_template('blogs.html', blogs = blogs)
 
 @main.route('/user/<username>')
 def profile(username):
