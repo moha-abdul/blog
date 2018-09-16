@@ -151,22 +151,3 @@ def new_comment(id):
     return render_template('new_comment.html', title = title, comment_form = form, blog = blog)
 
 
-
-
-# @main.route('/blog/new/<int:id>', methods = ['GET','POST'])
-# @login_required
-# def new_blog(id):
-#     form = BlogForm()
-#     if form.validate_on_submit():
-#         title = form.title.data
-#         blog = form.blog.data
-
-#         # Updated review instance
-#         new_blog = Blog(title=title,movie_review=review,user=current_user)
-
-#         # save blog method
-#         new_blog.save_blog()
-#         return redirect(url_for('.blog',id =blog.id ))
-
-#     title = f'{blog.title} blog'
-#     return render_template('new_blog.html',title = title, blog_form=form)

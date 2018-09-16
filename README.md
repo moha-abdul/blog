@@ -1,6 +1,4 @@
-# Project Title
-
-Blog
+# Blog
 
 ## Description
 
