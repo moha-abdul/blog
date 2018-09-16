@@ -14,6 +14,7 @@ class User(db.Model,UserMixin):
     username = db.Column(db.String(255))
     email = db.Column(db.String(255))
     role_id = db.Column(db.Integer,db.ForeignKey('roles.id'))
+    blogs = db.relationship('Blog',backref = 'user',lazy = "dynamic")
     password_hash = db.Column(db.String(255))
     pass_secure  = db.Column(db.String(255))
     bio = db.Column(db.String(255))
@@ -63,3 +64,17 @@ class Role(db.Model):
 
     def __repr__(self):
         return f'User {self.name}'
+
+class Blog(db.Model):
+
+    __tablename__ = 'blogs'
+
+    id = db.Column(db.Integer,primary_key = True)
+    title = db.Column(db.String)
+    body = db.Column(db.String)
+    posted = db.Column(db.DateTime,default=datetime.utcnow)
+    user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
+
+def save_blog(self):
+    db.session.add(self)
+    db.session.commit()

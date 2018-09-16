@@ -1,0 +1,13 @@
+{% macro displayBlogs(blogs) %}
+{% for blog in blogs %}
+
+  <div class="card m-7">
+    <div class="card-header">
+      <h3 class="card-title">{{blogs.title}}</h3>
+    </div>
+    <div class="card-body">
+      <p class="card-text">{{blogs.body}}</p>
+    </div>
+  </div>
+{% endfor %}
+{% endmacro %}
