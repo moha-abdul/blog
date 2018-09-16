@@ -4,16 +4,16 @@
 	<!-- <ul class="navbar-nav mr-auto"> -->
 		<ul class="nav navbar-nav navbar-right">
 		{% if current_user.is_authenticated %}
-			<li class="nav-item active" style="color:rgb(255, 255, 255);padding:15px;"><a href="{{url_for('.index')}}">Home</a></li>
-			<li class="nav-item active" style="color:rgb(255, 255, 255);padding:15px;"><a href="{{url_for('main.profile',username=current_user.username)}}">Profile</a></li>
-			<li class="nav-item active" style="color:rgb(255, 255, 255);padding:15px;"><a href="{{url_for('auth.logout')}}">Sign out</a></li>
-			<li class="nav-item active" style="color:rgb(255, 255, 255);padding:15px;">{{current_user.username}}</li>
+			<li><button type="button" class="btn btn-warning btn-lg"><a href="{{url_for('.index')}}">Home</a></button></li>
+			<li><button type="button" class="btn btn-success btn-lg"><a href="{{url_for('main.profile',username=current_user.username)}}">Profile</a></button></li>
+			<li><button type="button" class="btn btn-danger btn-lg"><a href="{{url_for('auth.logout')}}">Sign out</a></li>
 
-            <li class="nav-item active" style="color:rgb(255, 255, 255);padding:15px;"><a href="{{url_for('main.blog_list')}}">Blogs</a></li>
-            <li class="nav-item active" style="color:rgb(255, 255, 255);padding:15px;"><a href="{{url_for('main.new_blog')}}">New blog</a></li>
+            <li><button type="button" class="btn btn-info btn-lg"><a href="{{url_for('main.blog_list')}}">Blogs</a></button></li>
+            <li><button type="button" class="btn btn-warning btn-lg"><a href="/blog/new">New blog</a></button></li>
+			<li><button type="button" class="btn btn-warning btn-lg">{{current_user.username}}</button></li>
 		{% else %}
-			<li class="nav-item active" style="color:rgb(255, 255, 255);padding:15px;"><a href="{{url_for('main.index')}}">Home</a></li>
-			<li class="nav-item active" style="color:rgb(255, 255, 255);padding:15px;"><a href="{{url_for('auth.login')}}">Sign in</a></li>
+			<li><button type="button" class="btn btn-warning btn-lg"><a href="{{url_for('.index')}}">Home</a></button></li>
+			<li><button type="button" class="btn btn-warning btn-lg"><a href="{{url_for('auth.login')}}">Sign in</a></button></li>
 		{% endif %}
 		</ul>
 	</div>
