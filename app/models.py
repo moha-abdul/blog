@@ -13,7 +13,6 @@ class User(db.Model,UserMixin):
     id = db.Column(db.Integer,primary_key = True)
     username = db.Column(db.String(255))
     email = db.Column(db.String(255))
-    roles = db.relationship('Role', backref = 'users', lazy = "dynamic")
     blogs = db.relationship('Blog', backref = 'users', lazy = "dynamic")
     password_hash = db.Column(db.String(255))
     pass_secure  = db.Column(db.String(255))
@@ -52,18 +51,7 @@ class User(db.Model,UserMixin):
     def load_user(user_id):
         return User.query.get(int(user_id))
 
-class Role(db.Model):
-    '''
-    role class
-    '''
-    __tablename__ = 'roles'
 
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(255))
-    user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
-
-    def __repr__(self):
-        return f'User {self.name}'
 
 class Blog(db.Model):
 
@@ -74,7 +62,7 @@ class Blog(db.Model):
     body = db.Column(db.String)
     posted = db.Column(db.DateTime,default=datetime.utcnow)
     user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
-    # comments = db.relationship('Comment', backref='blogs', lazy="dynamic")
+    comments = db.relationship('Comment', backref='blogs', lazy="dynamic")
 
 def save_blog(self):
     db.session.add(self)
@@ -91,8 +79,8 @@ class Comment(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     post_comment = db.Column(db.String(255), index=True)
-    # user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    # blogs = db.Column(db.Integer, db.ForeignKey('blogs.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    blogs = db.Column(db.Integer, db.ForeignKey('blogs.id'))
     time = db.Column(db.DateTime, default=datetime.utcnow)
 
     def save_comment(self):

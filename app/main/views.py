@@ -1,5 +1,5 @@
 from flask import render_template,request,redirect,url_for,abort,flash
-from ..models import Role, User, Blog
+from ..models import User, Blog
 from . import main
 from .forms import UpdateProfile, BlogForm, CommentForm
 from .. import db,photos
@@ -71,6 +71,33 @@ def blog_list():
     blogs = Blog.query.all()
 
     return render_template('blogs.html', blogs = blogs)
+
+@main.route('/comments/<int:id>', methods=['GET', 'POST'])
+def comments(id):
+    '''
+    view comments
+    '''
+    comment = CommentForm()
+    comment_is = Comments.query.filter_by(post_id=id)
+    if comment.validate_on_submit():
+        comments = Comments(comment=comment.comment.data, post_id=id, name=comment.name.data)
+        comments.save_comments()
+
+    post_commment = Post.query.all()
+
+    return render_template('comment.html', comment=comment, post_comment=post_comment, commented=commented)
+
+@main.route('/delete/<id>')
+@login_required
+def delete_blog(id):
+
+    '''
+     function to delete blog
+    '''
+    blog = Blog.query.filter_by(id=id).first()
+
+    blog.delete_blog()
+    return redirect(url_for('main.index'))
 
 @main.route('/user/<username>')
 def profile(username):
