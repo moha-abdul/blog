@@ -12,7 +12,7 @@
             <li><button type="button" class="btn btn-warning btn-lg"><a href="/blog/new">New blog</a></button></li>
 			<li><button type="button" class="btn btn-warning btn-lg">{{current_user.username}}</button></li>
 		{% else %}
-			<li><button type="button" class="btn btn-warning btn-lg"><a href="{{url_for('.index')}}">Home</a></button></li>
+			<li><button type="button" class="btn btn-warning btn-lg"><a href="{{url_for('auth.login')}}">Home</a></button></li>
 			<li><button type="button" class="btn btn-warning btn-lg"><a href="{{url_for('auth.login')}}">Sign in</a></button></li>
 		{% endif %}
 		</ul>
