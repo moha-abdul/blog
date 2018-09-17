@@ -50,16 +50,18 @@ def new_blog():
         db.session.add(blog)
         db.session.commit()
 
+        # blog.save_blog(blog)
+        print('mohaaaaaaaaaaaaa')
         flash('Blog created!')
-        return redirect(url_for('.index'))
+        return redirect(url_for('main.single_blog',id = blog.id))
 
-    return render_template('newblog.html', blog_form=form)
+    return render_template('newblog.html', title='New Post', blog_form=form)
 
 # view one blog
 @main.route('/blog/new/<int:id>')
 def single_blog(id):
     blog = Blog.query.get(id)
-    return render_template('singleblog.html',blog =blog)
+    return render_template('singleblog.html', blog = blog)
 
 @main.route('/allblogs')
 @login_required
@@ -114,41 +116,41 @@ def update_pic(username):
         db.session.commit()
     return redirect(url_for('main.profile',username=username))
 
-@main.route('/blog/<int:blog_id>/',methods=["GET","POST"])
-def blog(blog_id):
-    blog = Blog.query.get(blog_id)
-    form = CommentForm()
-    if form.validate_on_submit():
-        comment = form.comment.data
-        blog_comment = Comment(post_comment = comment, blogs=blog_id, user = current_user)
-        # new_post_comment.save_post_comments()
+# @main.route('/blog/<int:blog_id>/',methods=["GET","POST"])
+# def blog(blog_id):
+#     blog = Blog.query.get(blog_id)
+#     form = CommentForm()
+#     if form.validate_on_submit():
+#         comment = form.comment.data
+#         blog_comment = Comment(post_comment = comment, blogs=blog_id, user = current_user)
+#         # new_post_comment.save_post_comments()
 
-        db.session.add(blog_comment)
-        db.session.commit()
-    comments = Comment.query.all()
-    return render_template('blog_comment.html', title = blog.title, blog = blog, blog_form = form, comments = comments)
+#         db.session.add(blog_comment)
+#         db.session.commit()
+#     comments = Comment.query.all()
+#     return render_template('blog_comment.html', title = blog.title, blog = blog, blog_form = form, comments = comments)
 
-main.route('/blog/comment/new/<int:id>', methods = ['GET','POST'])
-@login_required
-def new_comment(id):
-    '''
-    this view will render form to create a comment
-    '''
-    form = CommentForm()
-    blog = Blog.query.filter_by(id = id).first()
+# main.route('/blog/comment/new/<int:id>', methods = ['GET','POST'])
+# @login_required
+# def new_comment(id):
+#     '''
+#     this view will render form to create a comment
+#     '''
+#     form = CommentForm()
+#     blog = Blog.query.filter_by(id = id).first()
 
-    if form.validate_on_submit():
-        comment = form.comment.data
+#     if form.validate_on_submit():
+#         comment = form.comment.data
 
-        # comment instance
-        new_comment = Comment(blog_id = blog.id, post_comment = comment, title = title, user = current_user)
+#         # comment instance
+#         new_comment = Comment(blog_id = blog.id, post_comment = comment, title = title, user = current_user)
 
-        # save comment
-        new_comment.save_comment()
+#         # save comment
+#         new_comment.save_comment()
 
-        return redirect(url_for('.blogs', id = blog.id ))
+#         return redirect(url_for('.blogs', id = blog.id ))
 
-    title = f'{blog.title} comment'
-    return render_template('new_comment.html', title = title, comment_form = form, blog = blog)
+#     title = f'{blog.title} comment'
+#     return render_template('new_comment.html', title = title, comment_form = form, blog = blog)
 
 
