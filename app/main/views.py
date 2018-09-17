@@ -45,20 +45,21 @@ def new_blog():
 
         title=form.title.data
         body=form.body.data
-        blog = Blog(title=  title,body = body,user = current_user)
+        blog = Blog(title = title, body = body)
+
         db.session.add(blog)
         db.session.commit()
 
-        # blog.save_blog(blog)
         flash('Blog created!')
-        return redirect(url_for('main.single_blog',id = blog.id))
+        return redirect(url_for('.index'))
 
-    return render_template('newblog.html', title='New Post', blog_form=form)
+    return render_template('newblog.html', blog_form=form)
 
+# view one blog
 @main.route('/blog/new/<int:id>')
 def single_blog(id):
     blog = Blog.query.get(id)
-    return render_template('singleblog.html', blog = blog)
+    return render_template('singleblog.html',blog =blog)
 
 @main.route('/allblogs')
 @login_required
